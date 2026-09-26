@@ -1,0 +1,130 @@
+# ==============================================================================
+# ERA5-Land Data Download Configuration — PanchayatCast (SIH26074)
+# ==============================================================================
+#
+# Dataset: reanalysis-era5-land (Copernicus Climate Data Store)
+# Resolution: 0.1° × 0.1° (~9 km), hourly
+#
+# IMPORTANT:
+#   - Variable names here must match the exact CDS API identifiers.
+#   - Do NOT use GRIB short names (e.g. t2m) - use the full CDS variable names.
+#   - Verified against CDS API as of September 2024.
+#
+# Reference:
+#   https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+# ==============================================================================
+
+dataset: "reanalysis-era5-land"
+
+# -----------------------------------------------
+# Target years for the initial download
+# (Year-by-year chunking so one failure ≠ losing everything)
+# -----------------------------------------------
+years:
+  - 2019
+  - 2020
+  - 2021
+  - 2022
+  - 2023
+  - 2024
+
+# -----------------------------------------------
+# CDS API variable identifiers (verified against CDS)
+# Do NOT change these names without verifying against CDS API docs.
+# -----------------------------------------------
+variables:
+  - "2m_temperature"                   # Surface air temperature [K]
+  - "total_precipitation"              # Accumulated precipitation [m] (per hour, de-accumulate for rates)
+  - "volumetric_soil_water_layer_1"    # Soil moisture top layer 0–7 cm [m³/m³]
+  - "10m_u_component_of_wind"          # Eastward wind at 10m [m/s]
+  - "10m_v_component_of_wind"          # Northward wind at 10m [m/s]
+
+# -----------------------------------------------
+# Geographic bounding box for mainland India
+# Covers India's mainland + islands + border regions
+#
+# India's approximate geographic extent:
+#   North: 37.6°N (Ladakh / Siachen)
+#   South: 6.7°N  (Kanyakumari / Andaman)
+#   West:  68.1°E (Kutch/Gujarat)
+#   East:  97.4°E (Arunachal Pradesh)
+#
+# Using a small buffer (0.5°) around the boundary to ensure
+# complete spatial coverage at the 0.1° ERA5-Land grid resolution.
+# -----------------------------------------------
+area:
+  north: 38.0    # °N — includes northern Ladakh/J&K boundary buffer
+  south: 6.0     # °N — includes Kanyakumari and island chain buffer
+  west: 67.5     # °E — includes Kutch/Gujarat western tip buffer
+  east: 98.0     # °E — includes Arunachal Pradesh eastern boundary buffer
+
+# -----------------------------------------------
+# Download settings
+# -----------------------------------------------
+format: "netcdf"     # "netcdf" or "grib" — we use NetCDF for xarray compatibility
+
+# Chunking strategy: download one calendar month per request.
+# Monthly chunks keep individual request sizes manageable (~1–3 GB each).
+# Reduces risk of request timeouts and allows clean resumption.
+chunk_by: "month"   # "month" or "season" (only "month" implemented initially)
+
+# All 24 hours per day
+times:
+  - "00:00"
+  - "01:00"
+  - "02:00"
+  - "03:00"
+  - "04:00"
+  - "05:00"
+  - "06:00"
+  - "07:00"
+  - "08:00"
+  - "09:00"
+  - "10:00"
+  - "11:00"
+  - "12:00"
+  - "13:00"
+  - "14:00"
+  - "15:00"
+  - "16:00"
+  - "17:00"
+  - "18:00"
+  - "19:00"
+  - "20:00"
+  - "21:00"
+  - "22:00"
+  - "23:00"
+
+# -----------------------------------------------
+# Output configuration
+# -----------------------------------------------
+output_dir: "data/raw/era5_land"
+
+# File naming pattern: era5_land_india_{YEAR}_{MONTH:02d}.nc
+# e.g. data/raw/era5_land/2019/era5_land_india_2019_01.nc
+file_pattern: "era5_land_india_{year}_{month:02d}.nc"
+
+# -----------------------------------------------
+# Robustness settings
+# -----------------------------------------------
+retry_max: 3          # Maximum number of retry attempts per request
+retry_delay_seconds: 30   # Wait time between retries (seconds)
+sleep_between_requests: 5  # Polite pause between consecutive API requests (seconds)
+
+# -----------------------------------------------
+# Smoke test configuration (--test mode)
+# Uses a TINY area + short period to verify credentials and connectivity.
+# Delhi/NCR region: 28°N–29°N, 77°E–78°E | 1 day only
+# -----------------------------------------------
+test_mode:
+  area:
+    north: 29.0
+    south: 28.0
+    west:  77.0
+    east:  78.0
+  year: 2019
+  month: 1
+  days: ["01"]
+  times: ["00:00", "06:00", "12:00", "18:00"]
+  output_dir: "data/raw/era5_land/test_smoke"
+  output_file: "era5_land_smoke_test.nc"
