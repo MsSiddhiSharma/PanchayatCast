@@ -1,0 +1,91 @@
+{
+  "active_production_models": {
+    "rainfall": {
+      "lead_time_24": "block_copy_v1",
+      "lead_time_48": "block_copy_v1"
+    },
+    "tmax": {
+      "lead_time_24": "spatial_baseline_v1",
+      "lead_time_48": "spatial_baseline_v1"
+    }
+  },
+  "models": [
+    {
+      "model_id": "block_copy_v1",
+      "model_name": "block_copy",
+      "model_version": "v1.0.0",
+      "variable": "rainfall",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/baselines/block_copy/",
+      "format": "python_rule",
+      "status": "baseline",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "spatial_baseline_v1",
+      "model_name": "spatial_baseline",
+      "model_version": "v1.0.0",
+      "variable": "tmax",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/baselines/spatial_baseline/",
+      "format": "python_rule",
+      "status": "baseline",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "rf_rainfall_v1",
+      "model_name": "random_forest",
+      "model_version": "v1.0.0",
+      "variable": "rainfall",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/random_forest/models/rf_rainfall_24h_v1.joblib",
+      "format": "joblib",
+      "status": "experimental",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "xgb_rainfall_v1",
+      "model_name": "xgboost",
+      "model_version": "v1.0.0",
+      "variable": "rainfall",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/xgboost/models/xgb_rainfall_24h_v1.joblib",
+      "format": "joblib",
+      "status": "experimental",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "lgbm_tmax_v1",
+      "model_name": "lightgbm",
+      "model_version": "v1.0.0",
+      "variable": "tmax",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/lightgbm/models/lgbm_tmax_24h_v1.joblib",
+      "format": "joblib",
+      "status": "experimental",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "convlstm_rainfall_v1",
+      "model_name": "convlstm",
+      "model_version": "v1.0.0",
+      "variable": "rainfall",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/convlstm/models/convlstm_rainfall_24h_v1.pt",
+      "format": "pytorch",
+      "status": "experimental",
+      "registered_at": "2026-09-26T00:00:00Z"
+    },
+    {
+      "model_id": "cnn_unet_rainfall_v1",
+      "model_name": "cnn_unet",
+      "model_version": "v1.0.0",
+      "variable": "rainfall",
+      "lead_time_hours": 24,
+      "artifact_path": "ml/cnn_unet/models/unet_rainfall_24h_v1.pt",
+      "format": "pytorch",
+      "status": "experimental",
+      "registered_at": "2026-09-26T00:00:00Z"
+    }
+  ]
+}

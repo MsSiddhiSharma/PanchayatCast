@@ -1,0 +1,22 @@
+model_name: "random_forest"
+model_version: "v1.0.0"
+variable: "rainfall"
+lead_time_hours: 24
+
+training:
+  n_estimators: 250
+  max_depth: 12
+  min_samples_split: 6
+  min_samples_leaf: 3
+  max_features: "sqrt"
+  random_state: 42
+  n_jobs: -1
+
+data:
+  features_path: "data/features/panchayat_features_train.parquet"
+  target_column: "observed_rainfall"
+  spatial_split_strategy: "spatial_holdout_30pct"
+
+uncertainty:
+  method: "quantile_forest"
+  quantiles: [0.10, 0.50, 0.90]

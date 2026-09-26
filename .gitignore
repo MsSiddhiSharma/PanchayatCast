@@ -1,0 +1,136 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment and Secrets (CRITICAL: NEVER COMMIT KEYS OR PASSWORDS)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+credentials.json
+secrets.json
+
+# Large datasets and raw data (NEVER COMMIT RAW OR BIG DATASETS)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/features/*
+!data/features/.gitkeep
+data/external/*
+!data/external/.gitkeep
+data/sample/*
+!data/sample/.gitkeep
+*.nc
+*.nc4
+*.grib
+*.grib2
+*.tif
+*.tiff
+*.hdf
+*.h5
+*.parquet
+*.feather
+*.csv
+!data/sample/sample_panchayats_schema.csv
+
+# GIS and Raster artifacts
+gis/raster/*
+!gis/raster/.gitkeep
+gis/processed/*
+!gis/processed/.gitkeep
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.qpj
+
+# Trained ML Models and Checkpoints (Store in model registry / storage buckets)
+*.pkl
+*.joblib
+*.onnx
+*.pt
+*.pth
+*.h5
+*.ckpt
+ml/**/models/*
+!ml/**/models/.gitkeep
+ml/**/results/*
+!ml/**/results/.gitkeep
+!ml/model_comparison/results/summary_template.json
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.nbconvert.ipynb
+
+# Node / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next/
+out/
+dist/
+.cache/
+
+# IDE and OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing and coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+
+# Logs
+logs/
+*.log

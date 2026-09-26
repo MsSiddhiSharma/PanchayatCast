@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Spatial Database with PostGIS
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: panchayatcast_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-panchayat_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-panchayat_password_change_me}
+      POSTGRES_DB: ${DB_NAME:-panchayatcast_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-panchayat_user} -d ${DB_NAME:-panchayatcast_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Backend FastAPI Server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: panchayatcast_backend
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-panchayat_user}:${DB_PASSWORD:-panchayat_password_change_me}@db:5432/${DB_NAME:-panchayatcast_db}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./backend:/app
+      - ./ml/model_registry:/app/model_registry:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Frontend Web UI (Next.js / React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: panchayatcast_frontend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local

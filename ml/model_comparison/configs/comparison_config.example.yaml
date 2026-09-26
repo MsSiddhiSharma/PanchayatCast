@@ -1,0 +1,44 @@
+benchmark_run_id: "BENCH-2026-PILOT-01"
+evaluation_date: "2026-09-26"
+
+dataset:
+  test_features_path: "data/features/panchayat_features_test_heldout.parquet"
+  ground_truth_observations: "data/processed/aws_station_ground_truth.parquet"
+  spatial_holdout_clusters: ["Cluster_North_Hills", "Cluster_South_Valley"]
+  temporal_test_range: ["2024-06-01", "2024-09-30"]
+
+evaluation_targets:
+  - variable: "rainfall"
+    lead_times: [24, 48]
+    rain_threshold_mm: 0.1
+    heavy_rain_threshold_mm: 15.6
+
+  - variable: "tmax"
+    lead_times: [24, 48]
+
+models_to_evaluate:
+  - name: "block_copy"
+    version: "v1.0.0"
+    type: "baseline"
+  - name: "spatial_baseline"
+    version: "v1.0.0"
+    type: "baseline"
+  - name: "random_forest"
+    version: "v1.0.0"
+    type: "tabular"
+  - name: "xgboost"
+    version: "v1.0.0"
+    type: "tabular"
+  - name: "lightgbm"
+    version: "v1.0.0"
+    type: "tabular"
+  - name: "convlstm"
+    version: "v1.0.0"
+    type: "deep_challenger"
+  - name: "cnn_unet"
+    version: "v1.0.0"
+    type: "deep_challenger"
+
+output:
+  results_summary_json: "ml/model_comparison/results/benchmark_summary.json"
+  plots_dir: "ml/model_comparison/results/plots/"

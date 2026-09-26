@@ -1,0 +1,18 @@
+{
+  "rule_id": "RULE-SOY-RAIN-01",
+  "crop_name": "Soybean",
+  "phenological_stage": "Flowering",
+  "conditions": {
+    "variable": "rainfall",
+    "lead_time_hours": 24,
+    "operator": ">=",
+    "threshold_p50_mm": 20.0,
+    "threshold_p90_mm": 35.0
+  },
+  "action": {
+    "en": "Withhold chemical spraying and pest control sprays for the next 24 to 48 hours. Ensure drainage channels are cleared to prevent water stagnation in low-lying plots.",
+    "hi": "अगले २४ से ४८ घंटों के लिए किसी भी कीटनाशक या रासायनिक छिड़काव को स्थगित करें। निचले खेतों में जलभराव रोकने के लिए जल निकासी नालियों को साफ रखें।"
+  },
+  "severity": "WARNING",
+  "source_reference": "ICAR-Indian Institute of Soybean Research Advisory Bulletin 2024"
+}

@@ -1,0 +1,24 @@
+model_name: "lightgbm"
+model_version: "v1.0.0"
+variable: "tmax"
+lead_time_hours: 24
+
+training:
+  objective: "regression"
+  metric: "rmse"
+  boosting_type: "gbdt"
+  num_leaves: 31
+  learning_rate: 0.03
+  min_data_in_leaf: 20
+  feature_fraction: 0.8
+  bagging_fraction: 0.8
+  bagging_freq: 5
+  lambda_l1: 0.1
+  lambda_l2: 1.0
+  n_estimators: 500
+  random_state: 42
+
+data:
+  features_path: "data/features/panchayat_features_train.parquet"
+  target_column: "observed_tmax"
+  split_strategy: "spatial_holdout_30pct"

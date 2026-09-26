@@ -1,0 +1,25 @@
+model_name: "convlstm"
+model_version: "v1.0.0"
+variable: "rainfall"
+lead_time_hours: 24
+
+architecture:
+  input_dim: 4          # [coarse_rainfall, dem_elevation, u10_wind, v10_wind]
+  hidden_dims: [64, 32]
+  kernel_size: [3, 3]
+  num_layers: 2
+  sequence_length: 3    # 3 days antecedent context
+  batch_first: true
+
+training:
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  max_epochs: 50
+  loss_function: "huber"
+  device: "cuda"
+
+data:
+  grid_tensor_dir: "data/processed/grid_tensors/"
+  spatial_resolution_km: 1.0
+  spatial_holdout_region: "pilot_block_holdout"
